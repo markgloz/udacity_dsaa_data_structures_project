@@ -28,9 +28,12 @@ The code runs in constant time, O(1).
 
 ### Efficiency
 
-Time complexity related to call stack limit and/ or number of subdirectories within the given path.
+Time complexity is related to the number of subdirectories and files contained within the path given.
+It is linear time complexity, O(n), where n represents the number of unique subpaths in the given path.
+The base case of the solution is if the path being evaluated is a file, then it returns the path of that file.
+The recursive case is if the path being evaluated is a directory.
 
 ### Design choices
 
 Recursive function with a for loop chosen due to simplicity in implementation and readiblity.
-The relative paths of any given input path are output.
+Each path is only evaluated once, making the efficiency linear.
