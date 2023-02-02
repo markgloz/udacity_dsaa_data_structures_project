@@ -23,3 +23,14 @@ The code runs in constant time, O(1).
 - Collisions could be handled through separate chaining.
 - The time complexity on average for adding and removing items to this implemented hash map would be on average O(1), depending on the initial array size and load factor chosen.
 - Python's SipHash hash function for dictionaries has good performance characteristics and rarely encounters collisions out of the box, causing the practical time order to be closer to O(1) than perhaps the hash function discussed prior.
+
+## Problem 2: File recursion
+
+### Efficiency
+
+Time complexity related to call stack limit and/ or number of subdirectories within the given path.
+
+### Design choices
+
+Recursive function with a for loop chosen due to simplicity in implementation and readiblity.
+The relative paths of any given input path are output.
