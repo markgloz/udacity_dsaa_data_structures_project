@@ -37,6 +37,8 @@ class MinHeap:
                 if self.get_node(index).timestamp < self.get_parent(index).timestamp:
                     self.swap_nodes(index, self.get_parent_index(index))
                     index = self.get_parent_index(index)
+                else:
+                    break
             else:
                 break
     
@@ -60,6 +62,8 @@ class MinHeap:
                 elif self.get_left_child(index).frequency == self.get_right_child(index).frequency:
                     if self.get_left_child(index).timestamp < self.get_right_child(index).timestamp:
                         min_child_index = self.get_left_child_index(index)
+                    else:
+                        min_child_index = self.get_right_child_index(index)
                 else:
                     min_child_index = self.get_right_child_index(index)
             else:
@@ -71,6 +75,8 @@ class MinHeap:
                 if self.get_node(index).timestamp > self.get_node(min_child_index).timestamp:
                     self.swap_nodes(index, min_child_index)
                     index = min_child_index
+                else:
+                    break
             else:
                 break
             
@@ -136,8 +142,7 @@ class HuffmanTree:
         self.root = root
 
 
-def depth_first_traversal(tree: HuffmanTree) -> str:
-    codes = {}
+def depth_first_traversal(tree: HuffmanTree, codes: dict) -> str:
     root = tree.get_root()
 
     def recursive(node: Node, code: str):
@@ -145,68 +150,139 @@ def depth_first_traversal(tree: HuffmanTree) -> str:
             code = recursive(node.left, code + '0')
             code = recursive(node.right, code + '1')
         else:
-            codes[node.character] = {'frequency': node.frequency, 'code': code}
-            # codes[node.character]['code'] = code
+            codes[node.character]['code'] = code
         return code[:-1]
     
     recursive(root, '')
-    return codes
+    return
 
 def huffman_encoding(data):
-    char_freq_dict = {}
+    if data == '':
+        return '', ''
+    if data is None:
+        return None, None
+    codes = {}
     for char in data:
-        if char not in char_freq_dict:
-            char_freq_dict[char] = {'frequency': 1}
+        if char not in codes:
+            codes[char] = {'frequency': 1}
         else:
-            char_freq_dict[char]['frequency'] += 1
+            codes[char]['frequency'] += 1
     priority_queue = MinHeap()
     timestamp = 0
-    for char, parameters in char_freq_dict.items():
+    for char, parameters in codes.items():
         priority_queue.insert(Node(parameters['frequency'], char, timestamp=timestamp))
         timestamp += 1
     
     huffman_tree = HuffmanTree()
-    while len(priority_queue) > 1:
-        node_1 = priority_queue.dequeue()
-        node_2 = priority_queue.dequeue()
-        freq_sum = node_1.frequency + node_2.frequency
-        internal_node = Node(frequency = freq_sum, left = node_1, right = node_2, timestamp=timestamp)
-        timestamp += 1
-        huffman_tree.set_root(internal_node)
-        priority_queue.insert(internal_node)
+    if len(priority_queue) == 1:
+        huffman_tree.set_root(priority_queue.dequeue())
+    else:
+        while len(priority_queue) > 1:
+            node_1 = priority_queue.dequeue()
+            node_2 = priority_queue.dequeue()
+            freq_sum = node_1.frequency + node_2.frequency
+            internal_node = Node(frequency = freq_sum, left = node_1, right = node_2, timestamp=timestamp)
+            timestamp += 1
+            huffman_tree.set_root(internal_node)
+            priority_queue.insert(internal_node)
     
-    # Perform a depth first traversal, similar to pre-order
-    codes = depth_first_traversal(huffman_tree)
-    pass
+    # Perform a depth first traversal, similar to pre-order, to get binary codes
+    depth_first_traversal(huffman_tree, codes)
 
+    # Encode
+    encoded_data = ''
+    for char in data:
+        encoded_data += codes[char]['code']
+    
+    return encoded_data, huffman_tree
         
-def huffman_decoding(data,tree):
-    pass
+def huffman_decoding(data, tree: HuffmanTree):
+    if data == '':
+        if tree == '':
+            return ''
+        else:
+            return tree.get_root().character * tree.get_root().frequency
+    if None in {data, tree}:
+        return None
+    decoded_data = ''
+    node = tree.get_root()
+    for bit in data:
+        if bit == '0':
+            node = node.left
+        else:
+            node = node.right
+        if not node.has_child():
+            decoded_data += node.character
+            node = tree.get_root()
+    return decoded_data
+
 
 if __name__ == "__main__":
-    huffman_encoding("AAAAAAABBBCCCCCCCDDEEEEEE")
-    # codes = {}
+    a_great_sentence = "The bird is the word"
 
-    # a_great_sentence = "The bird is the word"
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    print ("The content of the data is: {}\n".format(a_great_sentence))
 
-    # print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
-    # print ("The content of the data is: {}\n".format(a_great_sentence))
+    encoded_data, tree = huffman_encoding(a_great_sentence)
 
-    # encoded_data, tree = huffman_encoding(a_great_sentence)
+    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    print ("The content of the encoded data is: {}\n".format(encoded_data))
 
-    # print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-    # print ("The content of the encoded data is: {}\n".format(encoded_data))
+    decoded_data = huffman_decoding(encoded_data, tree)
 
-    # decoded_data = huffman_decoding(encoded_data, tree)
-
-    # print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-    # print ("The content of the encoded data is: {}\n".format(decoded_data))
+    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    print ("The content of the encoded data is: {}\n".format(decoded_data))
 
 # Add your own test cases: include at least three test cases
 # and two of them must include edge cases, such as null, empty or very large values
 
 # Test Case 1
+data = "AAAAAAABBBCCCCCCCDDEEEEEE"
+encoded_data, tree = huffman_encoding(data)
+decoded_data = huffman_decoding(encoded_data, tree)
+assert decoded_data == data
 
 # Test Case 2
+data = 'Hello World'
+encoded_data, tree = huffman_encoding(data)
+decoded_data = huffman_decoding(encoded_data, tree)
+assert decoded_data == data
+print(f"Size of original data: {sys.getsizeof(data)}, Size of encoded data: {sys.getsizeof(int(encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(decoded_data)}")
 
 # Test Case 3
+data = None
+encoded_data, tree = huffman_encoding(data)
+decoded_data = huffman_decoding(encoded_data, tree)
+assert decoded_data == data
+
+# Test Case 4
+data = ''
+encoded_data, tree = huffman_encoding(data)
+decoded_data = huffman_decoding(encoded_data, tree)
+assert decoded_data == data
+
+# Test Case 5
+data = '42'
+encoded_data, tree = huffman_encoding(data)
+decoded_data = huffman_decoding(encoded_data, tree)
+assert decoded_data == data
+print(f"Size of original data: {sys.getsizeof(data)}, Size of encoded data: {sys.getsizeof(int(encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(decoded_data)}")
+
+# Test Case 6
+data = 'abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXZY0123456789;"/.,$£@!^%(^)(&%`~\\' * (10 ** 2)
+encoded_data, tree = huffman_encoding(data)
+decoded_data = huffman_decoding(encoded_data, tree)
+assert decoded_data == data
+print(f"Size of original data: {sys.getsizeof(data)}, Size of encoded data: {sys.getsizeof(int(encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(decoded_data)}")
+
+# Test Case 7
+data = 'A'
+encoded_data, tree = huffman_encoding(data)
+decoded_data = huffman_decoding(encoded_data, tree)
+assert decoded_data == data
+
+# Test Case 8
+data = 'AAAA'
+encoded_data, tree = huffman_encoding(data)
+decoded_data = huffman_decoding(encoded_data, tree)
+assert decoded_data == data
