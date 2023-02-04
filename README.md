@@ -58,3 +58,19 @@ Each path is only evaluated once, making the efficiency linear.
 - A min heap was chosen to implement the priority queue because it provides faster sorting after each iteration of building the Huffman tree. If a linked list was used, time complexity of insertion and deletion would be O(n). Instead with a heap this is achieved at O(log n).
 - The heap nodes are implemented without requiring the use of children (these only become used in the Huffman tree, which use the same nodes for simplicity and saving space). Due to the properties of a min heap, that is, it is always complete, then the tree can be mapped into an array, where the indices of each node is known, as are the children and parent indices of each node given an index. Using an array to represent the heap speeds up heapify after insertion and deletion.
 - Timestamps were implemented to ensure First In First Out (FIFO) property is maintained for nodes of equal frequency.
+
+## Problem 4: Active Directory
+
+### Efficiency
+
+- Time complexity is O(n) in the worst case, where n is the total number of groups contained within the parent, recursively.
+- Each group is checked in the order in which they were appended until a group is found that contains the username.
+- In the worst case, every group could be checked and False returned as the username was not found.
+
+### Design choices
+
+- A recursive function was chosen as each group can be treated as a branch, which must be traversed until the username is found in that branch, or not.
+- Branches can branch out of branches, and the users can be thought of as leaves.
+- So the function is checking the leaves (users) on each branch, traversing in the order at which the parent subchild groups were added.
+- If the base case is hit, True is recursively returned until the parent is reached.
+- This was chosen over a loop, where it would be more difficult to return to the parents recursively after searching through each branch. It would likely need variable(s) storing the previous group, which takes up more space.
