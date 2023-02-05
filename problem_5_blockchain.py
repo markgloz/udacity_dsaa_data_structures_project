@@ -1,3 +1,9 @@
+"""
+To enable Flask app, uncomment `app.run(debug = True, port = 5000)` at the bottom of the file.
+Run the example curl commands at the bottom of the file to interact with the Flask app.
+"""
+
+
 from hashlib import sha256
 from time import gmtime, strftime
 import json
@@ -17,7 +23,13 @@ class Block:
         return sha256(block_string).hexdigest()
     
     def __repr__(self) -> str:
-        return (f"Block[Index: {self.index}, Timestamp: {self.timestamp}, Data: {self.data}, " +
+        data = []
+        for d in self.data:
+            if d and len(d) > 75:
+                data.append(d[:75] + '...' + d[-5:])
+            else:
+                data.append(d)
+        return (f"Block[Index: {self.index}, Timestamp: {self.timestamp}, Data: {data}, " +
                 f"Previous Hash: {self.previous_hash}, Hash: {self.hash}]")
 
 
@@ -128,34 +140,41 @@ def tests():
     block_chain = BlockChain(difficulty=2)
     block_chain.add_data("We are going to encode this string of data!")
     block_chain.add_data("Different data")
-    mined_block_hash_1 = block_chain.mine()
+    mined_block_hash_1a = block_chain.mine()
     block_chain.add_data("More different data")
-    mined_block_hash_2 = block_chain.mine()
-    assert block_chain.get_block_from_hash(mined_block_hash_1) is not None
-    assert block_chain.get_block_from_hash(mined_block_hash_2) is not None
+    mined_block_hash_1b = block_chain.mine()
+    block_1a = block_chain.get_block_from_hash(mined_block_hash_1a)
+    block_1b = block_chain.get_block_from_hash(mined_block_hash_1b)
+    assert block_1a is not None
+    assert block_1b is not None
 
     # Test case 2 - Null
     block_chain = BlockChain()
     block_chain.add_data(None)
-    mined_block_hash = block_chain.mine()
-    assert block_chain.get_block_from_hash(mined_block_hash) is not None
+    mined_block_hash_2 = block_chain.mine()
+    block_2 = block_chain.get_block_from_hash(mined_block_hash_2)
+    assert block_2 is not None
 
     # Test case 3 - Empty
     block_chain = BlockChain()
     block_chain.add_data("")
-    mined_block_hash = block_chain.mine()
-    assert block_chain.get_block_from_hash(mined_block_hash) is not None
+    mined_block_hash_3 = block_chain.mine()
+    block_3 = block_chain.get_block_from_hash(mined_block_hash_3)
+    assert block_3 is not None
 
     # Test case 4 - Very large values
     block_chain = BlockChain(difficulty = 3)
-    block_chain.add_data("Some very large string" * 10 ** 3)
-    mined_block_hash = block_chain.mine()
-    assert block_chain.get_block_from_hash(mined_block_hash) is not None
+    block_chain.add_data("Some very large string " * 10 ** 3)
+    mined_block_hash_4 = block_chain.mine()
+    block_4 = block_chain.get_block_from_hash(mined_block_hash_4)
+    assert block_4 is not None
+
+    print(block_1a, block_1b, block_2, block_3, block_4, sep = '\n') # Prints 5 blocks and their details
 
 
 if __name__ == "__main__":
     tests()
-    app.run(debug = True, port = 5000)
+    # app.run(debug = True, port = 5000)
     # curl http://127.0.0.1:5000/blockchain
     # curl -X POST -H "Content-Type: application/json" -d '"Hello World"' http://127.0.0.1:5000/add_data
     # curl -X GET -H "Content-Type: application/json" http://127.0.0.1:5000/mine
