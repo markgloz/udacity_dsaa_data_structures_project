@@ -121,10 +121,10 @@ for v in array_1:
 for v in array_2:
     linked_list_2.append(v)
 
-answer = union(linked_list_1, linked_list_2) # 1 -> 2 -> 3 -> 4 -> 5
-assert test_answer(array_1, array_2, answer, 'Union')
-answer = intersection(linked_list_1, linked_list_2) # 2 -> 3
-assert test_answer(array_1, array_2, answer, 'Intersection')
+union_1 = union(linked_list_1, linked_list_2) # 1 -> 2 -> 3 -> 4 -> 5
+assert test_answer(array_1, array_2, union_1, 'Union')
+inter_1 = intersection(linked_list_1, linked_list_2) # 2 -> 3
+assert test_answer(array_1, array_2, inter_1, 'Intersection')
 
 # Tests 2 - Udacity test
 linked_list_1 = LinkedList()
@@ -139,10 +139,10 @@ for i in element_1:
 for i in element_2:
     linked_list_2.append(i)
 
-answer = union(linked_list_1,linked_list_2) # 1 -> 2 -> 3 -> 4 -> 6 -> 9 -> 11 -> 21 -> 32 -> 35 -> 65
-assert test_answer(element_1, element_2, answer, 'Union')
-answer = intersection(linked_list_1,linked_list_2) # 6 -> 4 -> 21
-assert test_answer(element_1, element_2, answer, 'Intersection')
+union_2 = union(linked_list_1,linked_list_2) # 1 -> 2 -> 3 -> 4 -> 6 -> 9 -> 11 -> 21 -> 32 -> 35 -> 65
+assert test_answer(element_1, element_2, union_2, 'Union')
+inter_2 = intersection(linked_list_1,linked_list_2) # 4 -> 6 -> 21
+assert test_answer(element_1, element_2, inter_2, 'Intersection')
 
 # Tests 3 - Udacity test
 
@@ -158,8 +158,10 @@ for i in element_1:
 for i in element_2:
     linked_list_4.append(i)
 
-answer = union(linked_list_3,linked_list_4) # 7 -> 8 -> 9 -> 11 -> 21 -> 1 -> 2 -> 35 -> 65 -> 6 -> 4 -> 3 -> 23
-assert test_answer(element_1, element_2, answer, 'Union')
-answer = intersection(linked_list_3,linked_list_4) # None
-assert test_answer(element_1, element_2, answer, 'Intersection')
+union_3 = union(linked_list_3,linked_list_4) # 1 -> 2 -> 3 -> 4 -> 6 -> 7 -> 8 -> 9 -> 11 -> 21 -> 23 -> 35 -> 65
+assert test_answer(element_1, element_2, union_3, 'Union')
+inter_3 = intersection(linked_list_3,linked_list_4) # None
+assert test_answer(element_1, element_2, inter_3, 'Intersection')
 
+if __name__ == '__main__':
+    print(union_1, inter_1, union_2, inter_2, union_3, inter_3, sep='\n')
