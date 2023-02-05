@@ -247,7 +247,7 @@ data = 'Hello World'
 encoded_data, tree = huffman_encoding(data)
 decoded_data = huffman_decoding(encoded_data, tree)
 assert decoded_data == data
-print(f"Size of original data: {sys.getsizeof(data)}, Size of encoded data: {sys.getsizeof(int(encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(decoded_data)}")
+# print(f"Size of original data: {sys.getsizeof(data)}, Size of encoded data: {sys.getsizeof(int(encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(decoded_data)}")
 
 # Test Case 3 - Null
 null_data = None
@@ -266,14 +266,14 @@ data = '42'
 encoded_data, tree = huffman_encoding(data)
 decoded_data = huffman_decoding(encoded_data, tree)
 assert decoded_data == data
-print(f"Size of original data: {sys.getsizeof(data)}, Size of encoded data: {sys.getsizeof(int(encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(decoded_data)}")
+# print(f"Size of original data: {sys.getsizeof(data)}, Size of encoded data: {sys.getsizeof(int(encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(decoded_data)}")
 
 # Test Case 6 - Large
 large_data = 'abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXZY0123456789;"/.,$£@!^%(^)(&%`~\\' * (10 ** 2)
 large_encoded_data, large_tree = huffman_encoding(large_data)
 large_decoded_data = huffman_decoding(large_encoded_data, large_tree)
 assert large_decoded_data == large_data
-print(f"Size of original data: {sys.getsizeof(large_data)}, Size of encoded data: {sys.getsizeof(int(large_encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(large_decoded_data)}")
+# print(f"Size of original data: {sys.getsizeof(large_data)}, Size of encoded data: {sys.getsizeof(int(large_encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(large_decoded_data)}")
 
 # Test Case 7
 data = 'A'
