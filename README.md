@@ -74,3 +74,25 @@ Each path is only evaluated once, making the efficiency linear.
 - So the function is checking the leaves (users) on each branch, traversing in the order at which the parent subchild groups were added.
 - If the base case is hit, True is recursively returned until the parent is reached.
 - This was chosen over a loop, where it would be more difficult to return to the parents recursively after searching through each branch. It would likely need variable(s) storing the previous group, which takes up more space.
+
+## Problem 5: Blockchain
+
+### Efficiency
+
+- Time complexity is heavily skewed by the proof of work and it is not possible to work out.
+- The time to compute the proof of works increases with a number of factors, including the difficulty (How many leading zeros must there be in the resulting hash by changing the nonce value).
+- Time complexity also increases with the data input size. A larger string increases the time required to find the correct nonce value. The current implementation simply starts at 0 and increments by 1 on each iteration.
+- When a block is mined, it is added to the blockchain. This is primarily implemented through a linked list, updating the head on each successful mine, which contains a link to the previous block. After proof of work, adding to the blockchain is done in constant time O(1).
+- A hashmap is also created such that a search can be done to find a block given a key of the hash value. This makes this getter function constant time O(1).
+- An array is also produced of the blockchain as a simple method to both know the length of the chain (which could also be done with a counter) and a way to print the entire blockchain. This could easily be changed to iterate through the linked list, both of these get the blocks in the blockchain in linear time, O(n).
+
+### Design choices
+
+- A simple but full blockchain was implemented as a REST API using Flask, and cURL requests can be made to interact with the app. Alternatively, the tests run locally with using Flask. Useful cURL commands can be found commented under `if __name__ == "__main__":`.
+- The orders of operation were created in a way to be analogous to cryptocurrency blockchains.
+  - User adds data to a pool of unverified data. This could be transactional data.
+  - A miner then performs proof of work, finding the nonce value to produce a hash value that meets the difficulty requirements. Difficulty 2 means the hash must have 2 leading zeros.
+  - Once the miner finds the hash, a request is made to add this to the blockchain. This succeeds if the previous hash noted in the block matches that in the records in the current blockchain. This is analogous to preventing malicious mutation of the blockchain.
+  - If the hash also passes validation checks, such that the hash value of the block is correct and has the leading zeros requirement, it gets added to the block chain and removed from the unvalidated list.
+  - An array was chosen for the unvalidated list for simplicity.
+  - The chain can be accessed through an array, as a more suitable solution, or by a linked list (from the head node, traversing through the previous hashes using a hashmap), to more closely match the requirements of the project.
