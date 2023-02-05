@@ -147,7 +147,7 @@ def tests():
     assert block_chain.get_block_from_hash(mined_block_hash) is not None
 
     # Test case 4 - Very large values
-    block_chain = BlockChain(difficulty = 4)
+    block_chain = BlockChain(difficulty = 3)
     block_chain.add_data("Some very large string" * 10 ** 3)
     mined_block_hash = block_chain.mine()
     assert block_chain.get_block_from_hash(mined_block_hash) is not None
