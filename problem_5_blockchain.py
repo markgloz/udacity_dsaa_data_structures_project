@@ -22,7 +22,7 @@ class Block:
 
 
 class BlockChain:
-    def __init__(self, difficulty = 1) -> None:
+    def __init__(self, difficulty = 2) -> None:
         self.head = None
         self.difficulty = difficulty
         self.not_verified = []
@@ -123,25 +123,39 @@ def mine():
         return json.dumps("Mining failed")
 
 def tests():
+    # Test case 1 - Normal use case.Add data, mine the block.
+    # If successful, it will return a hash of the mined block added to the blockchain.
     block_chain = BlockChain(difficulty=2)
     block_chain.add_data("We are going to encode this string of data!")
     block_chain.add_data("Different data")
-
     mined_block_hash_1 = block_chain.mine()
-
     block_chain.add_data("More different data")
     mined_block_hash_2 = block_chain.mine()
+    assert block_chain.get_block_from_hash(mined_block_hash_1) is not None
+    assert block_chain.get_block_from_hash(mined_block_hash_2) is not None
 
-    print(block_chain.get_blockchain())
+    # Test case 2 - Null
+    block_chain = BlockChain()
+    block_chain.add_data(None)
+    mined_block_hash = block_chain.mine()
+    assert block_chain.get_block_from_hash(mined_block_hash) is not None
 
-    print(block_chain.get_block_from_hash(mined_block_hash_1))
-    print(block_chain.get_block_from_hash(mined_block_hash_2))
+    # Test case 3 - Empty
+    block_chain = BlockChain()
+    block_chain.add_data("")
+    mined_block_hash = block_chain.mine()
+    assert block_chain.get_block_from_hash(mined_block_hash) is not None
 
+    # Test case 4 - Very large values
+    block_chain = BlockChain(difficulty = 4)
+    block_chain.add_data("Some very large string" * 10 ** 3)
+    mined_block_hash = block_chain.mine()
+    assert block_chain.get_block_from_hash(mined_block_hash) is not None
 
 
 if __name__ == "__main__":
-    # tests()
-    app.run(debug = True, port = 5000)
+    tests()
+    # app.run(debug = True, port = 5000)
     # curl http://127.0.0.1:5000/blockchain
     # curl -X POST -H "Content-Type: application/json" -d '"Hello World"' http://127.0.0.1:5000/add_data
     # curl -X GET -H "Content-Type: application/json" http://127.0.0.1:5000/mine
