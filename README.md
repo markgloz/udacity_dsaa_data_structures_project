@@ -60,6 +60,8 @@ Each path is only evaluated once, making the efficiency linear.
 
 - Space complexity is O(n)
 - Adding nodes to the minheap is O(n) in space complexity.
+- For k nodes in the Huffman tree, the space complexity is O(k).
+- Decoding produces the input string, therefore is O(n)
 
 ### Design choices
 
