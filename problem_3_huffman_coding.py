@@ -220,18 +220,18 @@ def huffman_decoding(data, tree: HuffmanTree):
 if __name__ == "__main__":
     a_great_sentence = "The bird is the word"
 
-    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
-    print ("The content of the data is: {}\n".format(a_great_sentence))
+    # print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    # print ("The content of the data is: {}\n".format(a_great_sentence))
 
     encoded_data, tree = huffman_encoding(a_great_sentence)
 
-    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-    print ("The content of the encoded data is: {}\n".format(encoded_data))
+    # print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    # print ("The content of the encoded data is: {}\n".format(encoded_data))
 
     decoded_data = huffman_decoding(encoded_data, tree)
 
-    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-    print ("The content of the encoded data is: {}\n".format(decoded_data))
+    # print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    # print ("The content of the encoded data is: {}\n".format(decoded_data))
 
 # Add your own test cases: include at least three test cases
 # and two of them must include edge cases, such as null, empty or very large values
@@ -249,17 +249,17 @@ decoded_data = huffman_decoding(encoded_data, tree)
 assert decoded_data == data
 print(f"Size of original data: {sys.getsizeof(data)}, Size of encoded data: {sys.getsizeof(int(encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(decoded_data)}")
 
-# Test Case 3
-data = None
-encoded_data, tree = huffman_encoding(data)
-decoded_data = huffman_decoding(encoded_data, tree)
-assert decoded_data == data
+# Test Case 3 - Null
+null_data = None
+null_encoded_data, null_tree = huffman_encoding(null_data)
+null_decoded_data = huffman_decoding(null_encoded_data, null_tree)
+assert null_decoded_data == null_data
 
-# Test Case 4
-data = ''
-encoded_data, tree = huffman_encoding(data)
-decoded_data = huffman_decoding(encoded_data, tree)
-assert decoded_data == data
+# Test Case 4 - Empty
+empty_data = ''
+empty_encoded_data, empty_tree = huffman_encoding(empty_data)
+empty_decoded_data = huffman_decoding(empty_encoded_data, empty_tree)
+assert empty_decoded_data == empty_data
 
 # Test Case 5
 data = '42'
@@ -268,12 +268,12 @@ decoded_data = huffman_decoding(encoded_data, tree)
 assert decoded_data == data
 print(f"Size of original data: {sys.getsizeof(data)}, Size of encoded data: {sys.getsizeof(int(encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(decoded_data)}")
 
-# Test Case 6
-data = 'abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXZY0123456789;"/.,$£@!^%(^)(&%`~\\' * (10 ** 2)
-encoded_data, tree = huffman_encoding(data)
-decoded_data = huffman_decoding(encoded_data, tree)
-assert decoded_data == data
-print(f"Size of original data: {sys.getsizeof(data)}, Size of encoded data: {sys.getsizeof(int(encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(decoded_data)}")
+# Test Case 6 - Large
+large_data = 'abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXZY0123456789;"/.,$£@!^%(^)(&%`~\\' * (10 ** 2)
+large_encoded_data, large_tree = huffman_encoding(large_data)
+large_decoded_data = huffman_decoding(large_encoded_data, large_tree)
+assert large_decoded_data == large_data
+print(f"Size of original data: {sys.getsizeof(large_data)}, Size of encoded data: {sys.getsizeof(int(large_encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(large_decoded_data)}")
 
 # Test Case 7
 data = 'A'
@@ -286,3 +286,10 @@ data = 'AAAA'
 encoded_data, tree = huffman_encoding(data)
 decoded_data = huffman_decoding(encoded_data, tree)
 assert decoded_data == data
+
+# Print null, empty and large test results to meet project requirements
+print(empty_decoded_data == empty_data) # Should print True
+print(null_decoded_data == null_data) # Should print True
+print(large_decoded_data == large_data) # Should print True
+print(f"Size of original data: {sys.getsizeof(large_data)}, Size of encoded data: {sys.getsizeof(int(large_encoded_data, base=2))}, Size of decoded data: {sys.getsizeof(large_decoded_data)}")
+# Above line should print: Size of original data: 7873, Size of encoded data: 6560, Size of decoded data: 7873

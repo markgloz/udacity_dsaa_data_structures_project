@@ -76,9 +76,9 @@ for file in files:
     assert file in answer
 
 # Test Case 4 - Test NoneType
-files = find_files(None, "testdir")
-answer = []
-assert files == answer
+null_files = find_files(None, "testdir")
+null_answer = []
+assert null_files == null_answer
 
 files = find_files(None, None)
 answer = []
@@ -89,9 +89,9 @@ answer = []
 assert files == answer
 
 # Test Case 5 - Test empty
-files = find_files("", None)
-answer = []
-assert files == answer
+empty_files = find_files("", None)
+empty_answer = []
+assert empty_files == empty_answer
 
 files = find_files("", "")
 answer = []
@@ -112,6 +112,11 @@ answer = []
 assert files == answer
 
 # Test Case 8 - Test subdir
-files = find_files(".c", "testdir/subdir3")
-answer = ["testdir/subdir3/subsubdir1/b.c"]
-assert files == answer
+nested_files = find_files(".c", "testdir/subdir3")
+nested_answer = ["testdir/subdir3/subsubdir1/b.c"]
+assert nested_files == nested_answer
+
+# Print null, empty and large test results to meet project requirements
+print(null_files == null_answer) # Should print True
+print(empty_files == empty_answer) # Should print True
+print(nested_files == nested_answer) # Should print True

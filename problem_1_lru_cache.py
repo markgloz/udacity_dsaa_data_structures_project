@@ -147,7 +147,8 @@ def my_tests():
     for k in [None]:
         results.append(lru_cache.get(k))
 
-    assert results == [None]
+    none_results = results
+    assert none_results == [None]
 
     # Test 4 - Test for setting and getting repeated None
     lru_cache = LRU_Cache(5)
@@ -200,7 +201,8 @@ def my_tests():
     for k in [""]:
         results.append(lru_cache.get(k))
 
-    assert results == [""]
+    empty_results = results
+    assert empty_results == [""]
 
     # Test 8 - Test for very large values
     lru_cache = LRU_Cache(5)
@@ -216,8 +218,13 @@ def my_tests():
     for k in ["Key to a large value", 10**42, 99**99]:
         results.append(lru_cache.get(k))
 
-    assert results == [123456789**99, 7, "A very large value"]
+    large_results = results
+    assert large_results == [123456789**99, 7, "A very large value"]
 
+    # Print null, empty and large test results to meet project requirements
+    print(none_results == [None]) # Should print True
+    print(empty_results == [""]) # Should print True
+    print(large_results == [123456789**99, 7, "A very large value"]) # Should print True
 
 udacity_tests()
 my_tests()

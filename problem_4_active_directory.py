@@ -139,3 +139,9 @@ original_group.add_user('User 1')
 assert is_user_in_group('User 1', original_group) == True
 overwriten_group = Group('Original group')
 assert is_user_in_group('User 1', overwriten_group) == False
+
+
+# Print null, empty and large test results to meet project requirements
+print(is_user_in_group('Unknown user', null_group) == False) # Should print True
+print(is_user_in_group('Unknown user', empty_group) == False) # Should print True
+print(is_user_in_group(sub_sub_child_3_user, parent) == True) # Should print True

@@ -165,3 +165,9 @@ assert test_answer(element_1, element_2, inter_3, 'Intersection')
 
 if __name__ == '__main__':
     print(union_1, inter_1, union_2, inter_2, union_3, inter_3, sep='\n')
+    # 1 -> 2 -> 3 -> 4 -> 5
+    # 2 -> 3
+    # 1 -> 2 -> 3 -> 4 -> 6 -> 9 -> 11 -> 21 -> 32 -> 35 -> 65
+    # 4 -> 6 -> 21
+    # 1 -> 2 -> 3 -> 4 -> 6 -> 7 -> 8 -> 9 -> 11 -> 21 -> 23 -> 35 -> 65
+    # None
