@@ -174,7 +174,10 @@ def tests():
 
 if __name__ == "__main__":
     tests()
+    # Uncomment the single line below to enable the Flask app
     # app.run(debug = True, port = 5000)
+
+    # Samples commands below
     # curl http://127.0.0.1:5000/blockchain
     # curl -X POST -H "Content-Type: application/json" -d '"Hello World"' http://127.0.0.1:5000/add_data
     # curl -X GET -H "Content-Type: application/json" http://127.0.0.1:5000/mine
