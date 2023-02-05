@@ -1,6 +1,12 @@
 """
 To enable Flask app, uncomment `app.run(debug = True, port = 5000)` at the bottom of the file.
 Run the example curl commands at the bottom of the file to interact with the Flask app.
+
+Inspiration for the Flask app came from the source below:
+https://www.activestate.com/blog/how-to-build-a-blockchain-in-python/#:~:text=A%20Python%20blockchain%20is%20simply,%2C%20unhackable%2C%20persistent%20and%20distributed.
+
+Understanding of blockchains to help code this project came from the source below:
+https://www.youtube.com/watch?v=bBC-nXj3Ng4
 """
 
 
