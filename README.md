@@ -13,8 +13,11 @@ The code runs in constant time, O(1).
   - The value (node) is added as the head of the list, which again runs in O(1).
 
 - For a put (set) operation, either:
+
   - A value is extracted by parsing a key to a hash map (dictionary) and a node added to the doubly linked list, both operations are O(1); or,
   - The tail node is removed from the doubly linked list and key removed from the hash map (essentially setting the bucket at the known index from the hash function to None). The new node is then added to the dictionary and list, all operations of which are O(1).
+
+- Space complexity is O(1). The cache remains at a fixed length regardless of input data size.
 
 ### Design choices
 
@@ -28,10 +31,12 @@ The code runs in constant time, O(1).
 
 ### Efficiency
 
-Time complexity is related to the number of subdirectories and files contained within the path given.
-It is linear time complexity, O(n), where n represents the number of unique subpaths in the given path.
-The base case of the solution is if the path being evaluated is a file, then it returns the path of that file.
-The recursive case is if the path being evaluated is a directory.
+- Time complexity is related to the number of subdirectories and files contained within the path given.
+- It is linear time complexity, O(n), where n represents the number of unique subpaths in the given path.
+- The base case of the solution is if the path being evaluated is a file, then it returns the path of that file.
+- The recursive case is if the path being evaluated is a directory.
+
+- Space complexity is related to the depth of recursion, O(n), where n is the number of levels of subdirectories.
 
 ### Design choices
 
@@ -53,6 +58,9 @@ Each path is only evaluated once, making the efficiency linear.
 - Decoding the encoded data requires traversal of the tree n times, giving a time complexity of (n logn)
 - The overall time complexity of the solution is the largest of the above time complexities, which is O(n logn).
 
+- Space complexity is O(n)
+- Adding nodes to the minheap is O(n) in space complexity.
+
 ### Design choices
 
 - A min heap was chosen to implement the priority queue because it provides faster sorting after each iteration of building the Huffman tree. If a linked list was used, time complexity of insertion and deletion would be O(n). Instead with a heap this is achieved at O(log n).
@@ -67,6 +75,8 @@ Each path is only evaluated once, making the efficiency linear.
 - Each group is checked in the order in which they were appended until a group is found that contains the username.
 - In the worst case, every group could be checked and False returned as the username was not found.
 
+- Space complexity is proportional to the recursion depth in the call stack. This is determined by the number of subfolders within the root, n. In this case, space complexity is O(n).
+
 ### Design choices
 
 - A recursive function was chosen as each group can be treated as a branch, which must be traversed until the username is found in that branch, or not.
@@ -79,12 +89,15 @@ Each path is only evaluated once, making the efficiency linear.
 
 ### Efficiency
 
-- Time complexity is heavily skewed by the proof of work and it is not possible to work out.
+- If difficulty is ignored (i.e. no proof of work), time complexity of adding a block is O(1).
+- Time complexity is heavily skewed by the proof of work if difficulty > 0 and it is not possible to calculate.
 - The time to compute the proof of works increases with a number of factors, including the difficulty (How many leading zeros must there be in the resulting hash by changing the nonce value).
 - Time complexity also increases with the data input size. A larger string increases the time required to find the correct nonce value. The current implementation simply starts at 0 and increments by 1 on each iteration.
 - When a block is mined, it is added to the blockchain. This is primarily implemented through a linked list, updating the head on each successful mine, which contains a link to the previous block. After proof of work, adding to the blockchain is done in constant time O(1).
 - A hashmap is also created such that a search can be done to find a block given a key of the hash value. This makes this getter function constant time O(1).
 - An array is also produced of the blockchain as a simple method to both know the length of the chain (which could also be done with a counter) and a way to print the entire blockchain. This could easily be changed to iterate through the linked list, both of these get the blocks in the blockchain in linear time, O(n).
+
+- If difficulty is ignored, space efficiency is O(1). Hashing is done in constant space (256 bits) regardless of the input data.
 
 ### Design choices
 
@@ -107,6 +120,8 @@ Each path is only evaluated once, making the efficiency linear.
 - LinkedList sorted_append is done in linear timee, O(n)
 - Union performs a search and a sorted_append for each array, resulting in O(n)
 - Intersection performs two searches and a sorted_append, resulting in O(n)
+
+- Space efficiency is O(n) in the worst case. Linked list grows with input data.
 
 ### Design choices
 
