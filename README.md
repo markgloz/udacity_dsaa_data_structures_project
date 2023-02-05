@@ -96,3 +96,19 @@ Each path is only evaluated once, making the efficiency linear.
   - If the hash also passes validation checks, such that the hash value of the block is correct and has the leading zeros requirement, it gets added to the block chain and removed from the unvalidated list.
   - An array was chosen for the unvalidated list for simplicity.
   - The chain can be accessed through an array, as a more suitable solution, or by a linked list (from the head node, traversing through the previous hashes using a hashmap), to more closely match the requirements of the project.
+
+## Problem 6: Union and Intersection
+
+### Efficiency
+
+- Solution for both Union and Intersection is in linear time, O(n)
+- LinkedList search is done in linear time, O(n)
+- LinkedList append is done in constant time, O(1)
+- LinkedList sorted_append is done in linear timee, O(n)
+- Union performs a search and a sorted_append for each array, resulting in O(n)
+- Intersection performs two searches and a sorted_append, resulting in O(n)
+
+### Design choices
+
+- LinkedList append() was performed on converting the arrays to linked lists, done in constant time O(1)
+- LinkedList sorted_append() was performed to produce the union and intersection LinkedLists to improve the readability of the output to the user, at the cost of linear over constant time complexity
