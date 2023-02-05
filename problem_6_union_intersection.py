@@ -1,5 +1,3 @@
-
-
 class LinkedListNode:
     def __init__(self, value) -> None:
         self.value = value
@@ -22,6 +20,21 @@ class LinkedList:
             new_node.next = self.head
             self.head = new_node
         self.length += 1
+    
+    def sorted_append(self, value) -> None:
+        new_node = LinkedListNode(value)
+        if not self.head:
+            self.head = new_node
+            return
+        if value < self.head.value:
+            new_node.next = self.head
+            self.head = new_node
+            return
+        node = self.head
+        while node.next and value >= node.next.value:
+            node = node.next
+        new_node.next = node.next
+        node.next = new_node
     
     def search(self, value) -> bool:
         if not self.head:
@@ -52,12 +65,12 @@ def union(linked_list_1: LinkedList, linked_list_2: LinkedList) -> LinkedList:
     node = linked_list_1.head
     while node:
         if not union_linked_list.search(node.value):
-            union_linked_list.append(node.value)
+            union_linked_list.sorted_append(node.value)
         node = node.next
     node = linked_list_2.head
     while node:
         if not union_linked_list.search(node.value):
-            union_linked_list.append(node.value)
+            union_linked_list.sorted_append(node.value)
         node = node.next
     if union_linked_list.head:
         return union_linked_list
@@ -69,13 +82,32 @@ def intersection(linked_list_1: LinkedList, linked_list_2: LinkedList) -> Linked
     node = linked_list_1.head
     while node:
         if not intersection_linked_list.search(node.value) and linked_list_2.search(node.value):
-            intersection_linked_list.append(node.value)
+            intersection_linked_list.sorted_append(node.value)
         node = node.next
     if intersection_linked_list.head:
         return intersection_linked_list
     else:
         return None
 
+def test_answer(array_1: list, array_2: list, answer: LinkedList, type = 'Union'):
+    set_1 = set(array_1)
+    set_2 = set(array_2)
+    solution_set = set_1.union(set_2) if type == 'Union' else set_1.intersection(set_2)
+    if answer is None:
+        if not solution_set:
+            return True
+        else:
+            return False
+    node = answer.head
+    while node:
+        if node.value not in solution_set:
+            return False
+        solution_set.remove(node.value)
+        node = node.next
+    if not solution_set:
+        return True
+    else:
+        return False
 
 # Tests 1 - Dev tests
 array_1 = [1, 2, 3]
@@ -89,11 +121,12 @@ for v in array_1:
 for v in array_2:
     linked_list_2.append(v)
 
-print(union(linked_list_1, linked_list_2))
-print(intersection(linked_list_1, linked_list_2))
+answer = union(linked_list_1, linked_list_2) # 1 -> 2 -> 3 -> 4 -> 5
+assert test_answer(array_1, array_2, answer, 'Union')
+answer = intersection(linked_list_1, linked_list_2) # 2 -> 3
+assert test_answer(array_1, array_2, answer, 'Intersection')
 
 # Tests 2 - Udacity test
-
 linked_list_1 = LinkedList()
 linked_list_2 = LinkedList()
 
@@ -106,8 +139,10 @@ for i in element_1:
 for i in element_2:
     linked_list_2.append(i)
 
-print(union(linked_list_1,linked_list_2))
-print(intersection(linked_list_1,linked_list_2))
+answer = union(linked_list_1,linked_list_2) # 1 -> 2 -> 3 -> 4 -> 6 -> 9 -> 11 -> 21 -> 32 -> 35 -> 65
+assert test_answer(element_1, element_2, answer, 'Union')
+answer = intersection(linked_list_1,linked_list_2) # 6 -> 4 -> 21
+assert test_answer(element_1, element_2, answer, 'Intersection')
 
 # Tests 3 - Udacity test
 
@@ -123,5 +158,8 @@ for i in element_1:
 for i in element_2:
     linked_list_4.append(i)
 
-print (union(linked_list_3,linked_list_4))
-print (intersection(linked_list_3,linked_list_4))
+answer = union(linked_list_3,linked_list_4) # 7 -> 8 -> 9 -> 11 -> 21 -> 1 -> 2 -> 35 -> 65 -> 6 -> 4 -> 3 -> 23
+assert test_answer(element_1, element_2, answer, 'Union')
+answer = intersection(linked_list_3,linked_list_4) # None
+assert test_answer(element_1, element_2, answer, 'Intersection')
+
